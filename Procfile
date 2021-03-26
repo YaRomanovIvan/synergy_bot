@@ -1,0 +1,1 @@
+worker: python synergy_bot.py
