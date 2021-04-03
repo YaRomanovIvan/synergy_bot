@@ -161,7 +161,7 @@ def start_message(message):
     button_online = types.KeyboardButton('Онлайн обучение')
     keyboard_start.row(button_ofline)
     keyboard_start.row(button_online)
-    bot.send_message(message.chat.id, 'Выберите формат обучения:', reply_markup=keyboard_start)
+    bot.send_message(message.chat.id, 'Выберите форму обучения, а после номер вопроса ответ на который хотите получить.', reply_markup=keyboard_start)
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
@@ -185,15 +185,15 @@ def send_text(message):
         bot.send_message(message.chat.id, 'Выберите номер вопроса:', reply_markup=keyboard)
         bot.send_message(message.chat.id, 'Если вы не нашли ответа на свой вопрос, то обратитесь непосредственно в деканат.')
     else:
-        bot.send_message(message.chat.id, 'Напишите "/start"')
+        bot.send_message(message.chat.id, 'Напишите "/start", выберите форму обучения, а после номер вопроса ответ на который хотите получить.')
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
     split = call.data.split()
     if split[1] == 'online':
-        bot.send_message(call.message.chat.id, f"Вопрос: {split[0]} \nформа обучения: {split[1]} \nОтвет: " + questions_online[int(split[0])][1])
+        bot.send_message(call.message.chat.id, f"Вопрос: {split[0]} \nФорма обучения: {split[1]} \nОтвет: " + questions_online[int(split[0])][1])
     else:
-        bot.send_message(call.message.chat.id, f'Вопрос: {split[0]} \nформа обучения: {split[1]} \nОтвет: ' + questions_offline[int(split[0])][1])
+        bot.send_message(call.message.chat.id, f'Вопрос: {split[0]} \nФорма обучения: {split[1]} \nОтвет: ' + questions_offline[int(split[0])][1])
 
 
 bot.polling()
