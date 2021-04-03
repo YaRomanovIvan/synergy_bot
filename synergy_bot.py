@@ -173,12 +173,13 @@ def send_text(message):
             button.append(types.InlineKeyboardButton(text=count, callback_data=str(count) + ' ' + 'offline'))
         keyboard.add(*button)
         bot.send_message(message.chat.id, 'Выберите номер вопроса:', reply_markup=keyboard)
+        bot.send_message(message.chat.id, 'Если вы не нашли ответа на свой вопрос, то обратитесь непосредственно в деканат.')
 
     elif message.text == 'Онлайн обучение':
         keyboard = types.InlineKeyboardMarkup()
         button = []
         for count in range(1, len(questions_online)+1):
-            bot.send_message(message.chat.id, "Вопрос: {count}. " + "\n" + "Форма обучения: offline" + "\n" +  questions_online[count][0])
+            bot.send_message(message.chat.id, f"Вопрос: {count}. " + "\n" + "Форма обучения: online" + "\n" +  questions_online[count][0])
             button.append(types.InlineKeyboardButton(text=count, callback_data=str(count) + ' ' + 'online'))
         keyboard.add(*button)
         bot.send_message(message.chat.id, 'Выберите номер вопроса:', reply_markup=keyboard)
