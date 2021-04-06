@@ -166,23 +166,17 @@ def start_message(message):
 @bot.message_handler(content_types=['text'])
 def send_text(message):
     if message.text == 'Оффлайн обучение':
-        keyboard = types.InlineKeyboardMarkup()
-        button = []
         for count in range(1, len(questions_offline)+1):
-            bot.send_message(message.chat.id, f"Вопрос: {count}. " + "\n" + "Форма обучения: offline" + "\n" + questions_offline[count][0])
-            button.append(types.InlineKeyboardButton(text=count, callback_data=str(count) + ' ' + 'offline'))
-        keyboard.add(*button)
-        bot.send_message(message.chat.id, 'Выберите номер вопроса:', reply_markup=keyboard)
+            keyboard = types.InlineKeyboardMarkup()
+            keyboard.add(types.InlineKeyboardButton(text=f'Ответ на вопрос {count}', callback_data=str(count) + ' ' + 'offline'))
+            bot.send_message(message.chat.id, f"Вопрос: {count}. " + "\n" + "Форма обучения: offline" + "\n" + questions_offline[count][0], reply_markup=keyboard)
         bot.send_message(message.chat.id, 'Если вы не нашли ответа на свой вопрос, то обратитесь непосредственно в деканат.')
 
     elif message.text == 'Онлайн обучение':
-        keyboard = types.InlineKeyboardMarkup()
-        button = []
         for count in range(1, len(questions_online)+1):
-            bot.send_message(message.chat.id, f"Вопрос: {count}. " + "\n" + "Форма обучения: online" + "\n" +  questions_online[count][0])
-            button.append(types.InlineKeyboardButton(text=count, callback_data=str(count) + ' ' + 'online'))
-        keyboard.add(*button)
-        bot.send_message(message.chat.id, 'Выберите номер вопроса:', reply_markup=keyboard)
+            keyboard = types.InlineKeyboardMarkup()
+            keyboard.add(types.InlineKeyboardButton(text=f'Ответ на вопрос {count}', callback_data=str(count) + ' ' + 'online'))
+            bot.send_message(message.chat.id, f"Вопрос: {count}. " + "\n" + "Форма обучения: online" + "\n" +  questions_online[count][0], reply_markup=keyboard)
         bot.send_message(message.chat.id, 'Если вы не нашли ответа на свой вопрос, то обратитесь непосредственно в деканат.')
     else:
         bot.send_message(message.chat.id, 'Напишите "/start", выберите форму обучения, а после номер вопроса ответ на который хотите получить.')
@@ -191,9 +185,9 @@ def send_text(message):
 def callback_worker(call):
     split = call.data.split()
     if split[1] == 'online':
-        bot.send_message(call.message.chat.id, f"Вопрос: {split[0]} \nФорма обучения: {split[1]} \nОтвет: " + questions_online[int(split[0])][1])
+        bot.send_message(call.message.chat.id, f"Вопрос: {split[0]} \nФорма обучения: {split[1]} \nОтвет:\n " + questions_online[int(split[0])][1])
     else:
-        bot.send_message(call.message.chat.id, f'Вопрос: {split[0]} \nФорма обучения: {split[1]} \nОтвет: ' + questions_offline[int(split[0])][1])
+        bot.send_message(call.message.chat.id, f'Вопрос: {split[0]} \nФорма обучения: {split[1]} \nОтвет:\n ' + questions_offline[int(split[0])][1])
 
 
 bot.polling()
